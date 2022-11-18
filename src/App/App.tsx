@@ -1,26 +1,15 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { ChakraProvider, Center } from '@chakra-ui/react'
+import InvitePopIn, { InvitePopInProvider, InvitePopInOpenButton } from '../components/InvitePopIn';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () =>
+  <ChakraProvider>
+    <InvitePopInProvider>
+      <Center h="100vh" w="100vh">
+        <InvitePopInOpenButton />
+      </Center>
+      <InvitePopIn />
+    </InvitePopInProvider>
+  </ChakraProvider>
 
 export default App;
