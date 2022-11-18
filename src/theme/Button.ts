@@ -19,6 +19,9 @@ const Button = defineStyleConfig({
     solid: {
       bg: "brand.blue-100",
       color: "white",
+      _active:{
+        backgroundColor: "brand.blue-100",
+      },
       _hover: {
         backgroundColor: "brand.blue-200",
       },
