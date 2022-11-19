@@ -2,6 +2,7 @@ import { extendTheme } from "@chakra-ui/react";
 
 import Button from "./Button";
 import Modal from "./Modal";
+import Avatar from "./Avatar"
 import global from "./global";
 import colors from "./colors";
 import fontSizes from "./fontSizes";
@@ -14,6 +15,7 @@ const theme = extendTheme({
   components: {
     Button,
     Modal,
+    Avatar
   },
   colors,
   fontSizes,

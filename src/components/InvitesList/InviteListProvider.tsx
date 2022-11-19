@@ -18,7 +18,7 @@ const InvitesListProvider = ({ children }: { children: ReactNode }) => {
   const [invites, setInvites] = useState<Invite[]>([])
 
   const addInvite = (invite: Invite) => {
-    setInvites([...invites.filter(inv => inv.email === invite.email), invite])
+    setInvites([...invites.filter(inv => inv.email !== invite.email), invite])
   }
 
   const deleteInvite = (inviteEmail: string) => {

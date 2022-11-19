@@ -25,9 +25,9 @@ const InvitePopIn = ({ onSend }: Props) => {
     close()
   }
   return (
-    <Modal isOpen={isOpen} onClose={close} isCentered>
+    <Modal isOpen={isOpen} onClose={close}>
       <ModalOverlay />
-      <ModalContent maxW="528px">
+      <ModalContent maxW="528px" top="40">
         <ModalBody>
           <Center><Heading fontWeight="normal" as="h2" fontSize="brand.xl" color="brand.gray-100" mb="8">Invite members</Heading></Center>
           <Text fontSize="brand.md" color="brand.gray-100" mb="4">Email invite</Text>

@@ -17,13 +17,19 @@ const Users = [
     id: (Math.random() * 1000).toString(),
     email: "tristan@claap.com",
   },
+  {
+    firstName: "antonio@gmail.co",
+    lastName: "",
+    id: (Math.random() * 1000).toString(),
+    email: "antonio@gmail.co",
+  },
 ];
 
 const normalize = (input: string): string => {
   return input.trim().toLowerCase();
 };
 
-const searchUser = async (input: string): Promise<User[]> => {
+export const searchUser = async (input: string): Promise<User[]> => {
   const normalized = normalize(input);
 
   await delay(200 + Math.random() * 200);
@@ -53,4 +59,3 @@ const searchUser = async (input: string): Promise<User[]> => {
   });
 };
 
-export default searchUser;

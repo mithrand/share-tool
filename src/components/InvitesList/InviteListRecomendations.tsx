@@ -1,9 +1,10 @@
-import React from 'react'
-import { Flex, List, ListItem, Avatar, Container, Text, Divider, Center } from '@chakra-ui/react'
+import React, { useRef } from 'react'
+import { Flex, List, ListItem, Avatar, Container, Text, Divider, Center, Spacer } from '@chakra-ui/react'
 import { EmailIcon } from '@chakra-ui/icons'
 import { isEmail } from '../../utils/email';
 import { Invite } from '../../types';
 import { getFullName } from '../../utils/invites';
+import useUsers from '../../queries/useUsers';
 
 type Props = {
   keyword: string;
@@ -12,10 +13,17 @@ type Props = {
 
 const InviteListRecomendations = ({ keyword, onClick }: Props) => {
 
-  const recomendations: Invite[] = []
+  const usersQuery = useUsers(keyword)
+  const usersRef = useRef<Invite[]>([])
+  
+  if (usersQuery?.isSuccess) {
+    usersRef.current = usersQuery.data
+  }
+
+  let recomendations: Invite[] = [...usersRef.current]
 
   if (isEmail(keyword)) {
-    recomendations.push({ email: keyword })
+    recomendations = [{ email: keyword }, ...recomendations]
   }
 
   if (recomendations.length === 0) { return null }
@@ -33,31 +41,34 @@ const InviteListRecomendations = ({ keyword, onClick }: Props) => {
       py="0"
       overflow="scroll"
     >
-      {recomendations.map((invite,index) => {
+      {recomendations.map((invite, index) => {
         const inviteName = getFullName(invite)
         return (
           <Container p="0" m="0" key={`${invite.email}-${invite.firstName}`}>
             <ListItem
               color="brand.gray-100"
               fontSize="brand.sm"
-              p="2"
+              py="2"
+              px="4"
               cursor="pointer"
-              
               onClick={() => onClick(invite)}
               _hover={{
-                backgroundColor: "brand.gray-500"
+                backgroundColor: "brand.gray-500-transparent"
               }}
             >
               <Flex>
-                <Container w="10%">
-                  {inviteName ? <Avatar name={inviteName} /> : <EmailIcon />}
-                </Container>
-                <Container w="90%">
+                {inviteName ? <Avatar
+                  size={"xs"}
+                  name={inviteName}
+                  backgroundColor="brand.gray-500"
+                  color="brand.gray-100"
+                /> : <EmailIcon w="6" h="5" />}
+                <Center ml="3">
                   <Text>{inviteName ? inviteName : invite.email}</Text>
-                </Container>
+                </Center>
               </Flex>
             </ListItem>
-            { index + 1 !== recomendations.length ? <Center><Divider w="95%"/></Center> : null }
+            {index + 1 !== recomendations.length ? <Center><Divider w="95%" /></Center> : null}
           </Container>
         )
       })}

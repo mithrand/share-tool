@@ -32,7 +32,7 @@ const InviteList = ({ onSend }: Props) => {
       return
     }
 
-    if (key === 'Backspace' && hasInvites) {
+    if (key === 'Backspace' && hasInvites && !keyword) {
       deleteInvite(invites[invites.length - 1].email)
       return
     }
