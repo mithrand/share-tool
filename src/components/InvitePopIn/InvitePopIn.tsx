@@ -21,8 +21,8 @@ const InvitePopIn = ({ onSend }: Props) => {
   const isOpen = useIsInvitePopInOpen()
   const { close } = useInvitePopInActions()
   const onSendHandler = (invites: Invite[]) => {
-    close()
     onSend(invites)
+    close()
   }
   return (
     <Modal isOpen={isOpen} onClose={close} isCentered>
