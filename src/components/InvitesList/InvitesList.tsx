@@ -13,18 +13,22 @@ type Props = {
 
 const InviteList = ({ onSend }: Props) => {
   const { hasInvites, addInvite, invites, deleteInvite } = useInvitesListContext()
-  const [email, setEmail] = useState('')
+  const [keyword, setKeyword] = useState('')
 
-  const onEmailChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const email = event.target.value
-    setEmail(email)
+  const add = (inivite: Invite) => {
+    addInvite(inivite)
+    setKeyword('')
+  }
+
+  const onKeywordChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const keyword = event.target.value
+    setKeyword(keyword)
   }
 
   const onKeyPressHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
     const { key } = event
-    if (key === 'Enter' && isEmail(email)) {
-      addInvite({ email })
-      setEmail('')
+    if (key === 'Enter' && isEmail(keyword)) {
+      add({ email: keyword })
       return
     }
 
@@ -61,8 +65,8 @@ const InviteList = ({ onSend }: Props) => {
             _focusVisible={{
               border: "none"
             }}
-            value={email}
-            onChange={onEmailChangeHandler}
+            value={keyword}
+            onChange={onKeywordChangeHandler}
             onKeyDown={onKeyPressHandler}
           />
         </Container>
@@ -70,13 +74,8 @@ const InviteList = ({ onSend }: Props) => {
         <Button onClick={onSendClickHandler} disabled={hasInvites ? false : true}>Invite</Button>
       </Flex>
       <Flex>
-        
-          <InviteListRecomendations keyword={email} onClick={(invite) => { 
-            addInvite(invite)
-            setEmail('')
-          }} />
-        
-        <Spacer/>
+        <InviteListRecomendations keyword={keyword} onClick={add} />
+        <Spacer />
       </Flex>
     </>
   )

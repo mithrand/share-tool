@@ -1,5 +1,5 @@
 import React from 'react'
-import { Flex, List, ListItem, Avatar, Container, Text, Divider } from '@chakra-ui/react'
+import { Flex, List, ListItem, Avatar, Container, Text, Divider, Center } from '@chakra-ui/react'
 import { EmailIcon } from '@chakra-ui/icons'
 import { isEmail } from '../../utils/email';
 import { Invite } from '../../types';
@@ -29,20 +29,20 @@ const InviteListRecomendations = ({ keyword, onClick }: Props) => {
       borderColor="brand.gray-500"
       backgroundColor="brand.gray-900"
       marginTop="0.5"
-      px="2"
-      py="1"
+      px="0"
+      py="0"
       overflow="scroll"
     >
       {recomendations.map((invite,index) => {
         const inviteName = getFullName(invite)
         return (
-          <>
+          <Container p="0" m="0" key={`${invite.email}-${invite.firstName}`}>
             <ListItem
               color="brand.gray-100"
               fontSize="brand.sm"
-              p="1"
+              p="2"
               cursor="pointer"
-              key={`${invite.email}-${invite.firstName}`}
+              
               onClick={() => onClick(invite)}
               _hover={{
                 backgroundColor: "brand.gray-500"
@@ -56,10 +56,9 @@ const InviteListRecomendations = ({ keyword, onClick }: Props) => {
                   <Text>{inviteName ? inviteName : invite.email}</Text>
                 </Container>
               </Flex>
-
             </ListItem>
-            { index + 1 !== recomendations.length ? <Divider /> : null }
-          </>
+            { index + 1 !== recomendations.length ? <Center><Divider w="95%"/></Center> : null }
+          </Container>
         )
       })}
     </List >
