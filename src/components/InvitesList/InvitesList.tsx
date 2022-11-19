@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, createRef } from 'react'
 
 import { Flex, Container, Button, Spacer, Input } from '@chakra-ui/react'
 import { isEmail } from '../../utils/email'
@@ -20,6 +20,8 @@ const InviteList = ({ onSend }: Props) => {
     setKeyword('')
   }
 
+  const recomendationListRef = createRef<HTMLLIElement>()
+
   const onKeywordChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const keyword = event.target.value
     setKeyword(keyword)
@@ -34,6 +36,11 @@ const InviteList = ({ onSend }: Props) => {
 
     if (key === 'Backspace' && hasInvites && !keyword) {
       deleteInvite(invites[invites.length - 1].email)
+      return
+    }
+
+    if(key === "ArrowDown" &&  recomendationListRef.current) {
+      recomendationListRef.current.focus()
       return
     }
   }
@@ -54,9 +61,10 @@ const InviteList = ({ onSend }: Props) => {
           m="0"
           p="0"
         >
-          {invites.map((invite) => <InviteTag key={invite.email} {...invite}></InviteTag>)}
+          {invites.map((invite, index) => <InviteTag tabIndex={index + 1} key={invite.email} invite={invite}></InviteTag>)}
           <Input
             type='email'
+            tabIndex={1}
             placeholder={hasInvites ? '' : 'Search names or emails...'}
             fontSize="brand.sm"
             border="none"
@@ -71,10 +79,10 @@ const InviteList = ({ onSend }: Props) => {
           />
         </Container>
         <Spacer />
-        <Button onClick={onSendClickHandler} disabled={hasInvites ? false : true}>Invite</Button>
+        <Button tabIndex={invites.length + 3} onClick={onSendClickHandler} disabled={hasInvites ? false : true}>Invite</Button>
       </Flex>
       <Flex>
-        <InviteListRecomendations keyword={keyword} onClick={add} />
+        <InviteListRecomendations ref={recomendationListRef} tabIndex={invites.length + 2} keyword={keyword} onClick={add} />
         <Spacer />
       </Flex>
     </>

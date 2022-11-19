@@ -12,9 +12,12 @@ import { Invite } from '../../types'
 import { useInvitesListContext } from './InviteListProvider'
 import { getFullName } from '../../utils/invites'
 
-type Props = Invite
+type Props = {
+  tabIndex?: number;
+  invite: Invite;
+}
 
-const InviteTag = (invite: Props) => {
+const InviteTag = ({ tabIndex, invite }: Props) => {
   const { deleteInvite } = useInvitesListContext()
   const { email, firstName, lastName } = invite
   const inviteName = getFullName(invite)
@@ -24,14 +27,14 @@ const InviteTag = (invite: Props) => {
         <Avatar
           name={firstName || lastName}
           size="brand-xs"
-          backgroundColor="brand.red-100" 
+          backgroundColor="brand.red-100"
           color="brand.gray-100"
           marginRight="10px"
         />
         :
         <TagLeftIcon w={5} h={5} as={EmailIcon} />}
       <TagLabel>{inviteName ? inviteName : email}</TagLabel>
-      <TagCloseButton onClick={() => deleteInvite(email)} />
+      <TagCloseButton tabIndex={tabIndex} onClick={() => deleteInvite(email)} />
     </Tag>
   )
 }

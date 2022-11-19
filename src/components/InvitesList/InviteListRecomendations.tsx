@@ -1,5 +1,5 @@
-import React, { useRef } from 'react'
-import { Flex, List, ListItem, Avatar, Container, Text, Divider, Center, Spacer } from '@chakra-ui/react'
+import React, { useRef, forwardRef } from 'react'
+import { Flex, List, ListItem, Avatar, Text, Center } from '@chakra-ui/react'
 import { EmailIcon } from '@chakra-ui/icons'
 import { isEmail } from '../../utils/email';
 import { Invite } from '../../types';
@@ -9,13 +9,14 @@ import useUsers from '../../queries/useUsers';
 type Props = {
   keyword: string;
   onClick(invite: Invite): void
+  tabIndex?: number
 }
 
-const InviteListRecomendations = ({ keyword, onClick }: Props) => {
+const InviteListRecomendations = forwardRef<HTMLLIElement, Props>(({ keyword, onClick }, ref) => {
 
   const usersQuery = useUsers(keyword)
   const usersRef = useRef<Invite[]>([])
-  
+
   if (usersQuery?.isSuccess) {
     usersRef.current = usersQuery.data
   }
@@ -28,6 +29,35 @@ const InviteListRecomendations = ({ keyword, onClick }: Props) => {
 
   if (recomendations.length === 0) { return null }
 
+  const onKeyDownHandler = (invite: Invite) => (event: React.KeyboardEvent<HTMLLIElement>) => {
+    const { key, target } = event
+    if (key === 'Enter') {
+      onClick(invite)
+      return;
+    }
+
+    if (target instanceof Element) {
+      if (key === 'ArrowDown') {
+        if (target.nextElementSibling) {
+          (target.nextElementSibling as HTMLElement)?.focus()
+        } else {
+          (target?.parentElement?.childNodes[0]as HTMLElement)?.focus()
+        }
+        return
+      }
+
+      if (key === "ArrowUp") {
+        if (target.previousElementSibling) {
+          (target.previousElementSibling as HTMLElement)?.focus()
+        }
+        else {
+          (target?.parentElement?.childNodes[target.parentElement.childNodes.length - 1]as HTMLElement)?.focus()
+        }
+        return
+      }
+    }
+
+  }
 
   return (
     <List
@@ -44,36 +74,41 @@ const InviteListRecomendations = ({ keyword, onClick }: Props) => {
       {recomendations.map((invite, index) => {
         const inviteName = getFullName(invite)
         return (
-          <Container p="0" m="0" key={`${invite.email}-${invite.firstName}`}>
-            <ListItem
-              color="brand.gray-100"
-              fontSize="brand.sm"
-              py="2"
-              px="4"
-              cursor="pointer"
-              onClick={() => onClick(invite)}
-              _hover={{
-                backgroundColor: "brand.gray-500-transparent"
-              }}
-            >
-              <Flex>
-                {inviteName ? <Avatar
-                  size={"xs"}
-                  name={inviteName}
-                  backgroundColor="brand.gray-500"
-                  color="brand.gray-100"
-                /> : <EmailIcon w="6" h="5" />}
-                <Center ml="3">
-                  <Text>{inviteName ? inviteName : invite.email}</Text>
-                </Center>
-              </Flex>
-            </ListItem>
-            {index + 1 !== recomendations.length ? <Center><Divider w="95%" /></Center> : null}
-          </Container>
+          <ListItem
+            ref={index === 0 ? ref : undefined}
+            key={`${invite.email}-${invite.firstName}`}
+            role="button"
+            color="brand.gray-100"
+            fontSize="brand.sm"
+            py="2"
+            px="4"
+            cursor="pointer"
+            tabIndex={index + 1}
+            onClick={() => onClick(invite)}
+            onKeyDown={onKeyDownHandler(invite)}
+            _hover={{
+              backgroundColor: "brand.gray-500-transparent"
+            }}
+            _focus={{
+              backgroundColor: "brand.gray-500-transparent"
+            }}
+          >
+            <Flex>
+              {inviteName ? <Avatar
+                size={"xs"}
+                name={inviteName}
+                backgroundColor="brand.gray-500"
+                color="brand.gray-100"
+              /> : <EmailIcon w="6" h="5" />}
+              <Center ml="3">
+                <Text>{inviteName ? inviteName : invite.email}</Text>
+              </Center>
+            </Flex>
+          </ListItem>
         )
       })}
     </List >
   )
-}
+})
 
 export default InviteListRecomendations
