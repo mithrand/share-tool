@@ -8,12 +8,15 @@ import {
   ModalBody,
   Text,
   Center,
+  Container,
+  Spacer,
+  Flex,
 } from '@chakra-ui/react'
 import {
   useInvitePopInActions,
   useIsInvitePopInOpen,
 } from './InvitePopInProvider'
-import InvitesInput, { InviteInputText } from '../InvitesInput'
+import InvitesInput, { InviteInputSelect, InviteInputSubmitButton, InviteInputText } from '../InvitesInput'
 import { Invite } from '../../types'
 
 type Props = {
@@ -46,11 +49,25 @@ const InvitePopIn = ({ onSubmit }: Props) => {
           <Text fontSize="brand.md" color="brand.gray-100" mb="4">
             Email invite
           </Text>
-          <Text fontSize="brand.sm" color="brand.gray-100" mb="6">
+          <Text fontSize="brand.sm" color="brand.gray-300" mb="6">
             Send members an email invitation to join this workspace
           </Text>
           <InvitesInput onSubmit={onSubmitHandler}>
-            <InviteInputText />
+            <Flex>
+              <Container w="75%" p="0" m="0">
+                <InviteInputText/>
+              </Container>
+              <Spacer />
+              <Center>
+                <InviteInputSubmitButton>Invite</InviteInputSubmitButton>
+              </Center>
+            </Flex>
+            <Flex>
+              <Container w="75%" p="0" m="0">
+                <InviteInputSelect/>
+              </Container>
+              <Spacer />
+            </Flex>
           </InvitesInput>
         </ModalBody>
       </ModalContent>
