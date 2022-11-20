@@ -5,6 +5,7 @@ import {
   TagLeftIcon,
   TagCloseButton,
   Avatar,
+  Fade
 } from '@chakra-ui/react'
 import { EmailIcon } from '@chakra-ui/icons'
 

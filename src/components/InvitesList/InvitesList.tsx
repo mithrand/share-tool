@@ -1,6 +1,6 @@
 import React, { useState, createRef } from 'react'
 
-import { Flex, Container, Button, Spacer, Input } from '@chakra-ui/react'
+import { Flex, Container, Button, Spacer, Input, Center } from '@chakra-ui/react'
 import { isEmail } from '../../utils/email'
 import InviteTag from './InviteTag'
 import InvitesListProvider, { useInvitesListContext } from './InviteListProvider'
@@ -21,6 +21,7 @@ const InviteList = ({ onSend }: Props) => {
   }
 
   const recomendationListRef = createRef<HTMLLIElement>()
+  const inputRef = createRef<HTMLInputElement>()
 
   const onKeywordChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     const keyword = event.target.value
@@ -39,7 +40,7 @@ const InviteList = ({ onSend }: Props) => {
       return
     }
 
-    if(key === "ArrowDown" &&  recomendationListRef.current) {
+    if (key === "ArrowDown" && recomendationListRef.current) {
       recomendationListRef.current.focus()
       return
     }
@@ -48,6 +49,8 @@ const InviteList = ({ onSend }: Props) => {
   const onSendClickHandler = () => {
     onSend(invites)
   }
+
+
 
   return (
     <>
@@ -60,16 +63,20 @@ const InviteList = ({ onSend }: Props) => {
           backgroundColor="brand.gray-900"
           m="0"
           p="0"
+          onClick={() => inputRef.current?.focus()}
         >
           {invites.map((invite, index) => <InviteTag tabIndex={index + 1} key={invite.email} invite={invite}></InviteTag>)}
           <Input
             type='email'
+            ref={inputRef}
             tabIndex={1}
             placeholder={hasInvites ? '' : 'Search names or emails...'}
             fontSize="brand.sm"
             border="none"
             color="brand.gray-100"
             height="8"
+            maxWidth="100%"
+            width={!hasInvites ? '100%' : `${(keyword.length + 10).toString()}ch`}
             _focusVisible={{
               border: "none"
             }}
@@ -79,10 +86,14 @@ const InviteList = ({ onSend }: Props) => {
           />
         </Container>
         <Spacer />
-        <Button tabIndex={invites.length + 3} onClick={onSendClickHandler} disabled={hasInvites ? false : true}>Invite</Button>
+        <Center>
+          <Button tabIndex={invites.length + 3} onClick={onSendClickHandler} disabled={hasInvites ? false : true}>Invite</Button>
+        </Center>
       </Flex>
       <Flex>
-        <InviteListRecomendations ref={recomendationListRef} tabIndex={invites.length + 2} keyword={keyword} onClick={add} />
+        <Container w="75%" p="0" m="0">
+          <InviteListRecomendations ref={recomendationListRef} tabIndex={invites.length + 2} keyword={keyword} onSelect={add} />
+        </Container>
         <Spacer />
       </Flex>
     </>
