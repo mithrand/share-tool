@@ -16,7 +16,7 @@ import {
   useInvitePopInActions,
   useIsInvitePopInOpen,
 } from './InvitePopInProvider'
-import InvitesInput, { InviteInputSelect, InviteInputSubmitButton, InviteInputText } from '../InvitesInput'
+import InvitesInput, { InvitesInputSelect, InvitesInputSubmitButton, InvitesInputText } from '../InvitesInput'
 import { Invite } from '../../types'
 
 type Props = {
@@ -55,16 +55,16 @@ const InvitePopIn = ({ onSubmit }: Props) => {
           <InvitesInput onSubmit={onSubmitHandler}>
             <Flex>
               <Container w="75%" p="0" m="0">
-                <InviteInputText/>
+                <InvitesInputText/>
               </Container>
               <Spacer />
               <Center>
-                <InviteInputSubmitButton>Invite</InviteInputSubmitButton>
+                <InvitesInputSubmitButton>Invite</InvitesInputSubmitButton>
               </Center>
             </Flex>
             <Flex>
               <Container w="75%" p="0" m="0">
-                <InviteInputSelect/>
+                <InvitesInputSelect/>
               </Container>
               <Spacer />
             </Flex>

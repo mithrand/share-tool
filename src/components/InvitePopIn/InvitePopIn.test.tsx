@@ -3,24 +3,24 @@ import {
   render,
   screen,
   waitForElementToBeRemoved,
+
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import InviteListInput from '../InvitesInput'
 
 import InvitePopIn, { InvitePopInOpenButton, InvitePopInProvider } from '.'
+import { QueryClientProvider } from '@tanstack/react-query'
+import queryClient from '../../queries/queryClient'
 
-jest.mock('../InvitesList', () => ({ onSend }: { onSend: () => void }) => (
-  <button onClick={onSend}>submit</button>
-))
 
 describe('Invite App', () => {
-  const onSubmitMock = () => jest.fn()
 
   const App = () => (
-    <InvitePopInProvider>
-      <InvitePopIn onSubmit={onSubmitMock} />
-      <InvitePopInOpenButton />
-    </InvitePopInProvider>
+    <QueryClientProvider client={queryClient}>
+      <InvitePopInProvider>
+        <InvitePopIn onSubmit={jest.fn()} />
+        <InvitePopInOpenButton />
+      </InvitePopInProvider>
+    </QueryClientProvider>
   )
 
   it('Opens when clicking on PopIn button', () => {
@@ -47,8 +47,10 @@ describe('Invite App', () => {
     render(<App />)
     const inviteTeammatesButton = screen.getByText(/Invite teammates/i)
     await userEvent.click(inviteTeammatesButton)
-    const submitbutton = screen.getByText(/submit/i)
-    await userEvent.click(submitbutton)
+    const textInput = screen.getByRole('textbox')
+    await userEvent.type(textInput, 'email@gmail.com{enter}')
+    const inviteButton = screen.getByText('Invite')
+    await userEvent.click(inviteButton)
     await waitForElementToBeRemoved(() => screen.queryByText(/Invite members/i))
   })
 })

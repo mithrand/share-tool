@@ -16,7 +16,7 @@ import useUsers from '../../queries/useUsers'
 import { useInvitesListContext } from './InvitesInput'
 
 
-export const InviteInputSelect = () => {
+export const InvitesInputSelect = () => {
 
   const {
     addInvite,
@@ -78,6 +78,7 @@ export const InviteInputSelect = () => {
   return (
     <Collapse in={hasRecomendations}>
       <List
+        role="list"
         maxH="200px"
         borderWidth="1px"
         borderColor="brand.gray-500"

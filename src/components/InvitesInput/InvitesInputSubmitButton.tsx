@@ -9,7 +9,7 @@ type Props = {
   children: ReactNode
 }
 
-export const InviteInputSubmitButton = ({ children }: Props) => {
+export const InvitesInputSubmitButton = ({ children }: Props) => {
 
   const {
     hasInvites,
@@ -19,6 +19,7 @@ export const InviteInputSubmitButton = ({ children }: Props) => {
   
   return (
     <Button
+      role="button"
       tabIndex={invites.length + 3}
       onClick={submit}
       disabled={hasInvites ? false : true}

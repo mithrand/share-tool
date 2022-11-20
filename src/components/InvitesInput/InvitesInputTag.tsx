@@ -17,12 +17,13 @@ type Props = {
   invite: Invite
 }
 
-const InviteTag = ({ tabIndex, invite }: Props) => {
+const InvitesInputTag = ({ tabIndex, invite }: Props) => {
   const { deleteInvite } = useInvitesListContext()
   const { email, firstName, lastName } = invite
   const inviteName = getFullName(invite)
   return (
     <Tag
+      role="button"
       backgroundColor="transparent"
       borderColor="brand.red-100"
       borderWidth="1px"
@@ -44,9 +45,9 @@ const InviteTag = ({ tabIndex, invite }: Props) => {
         <TagLeftIcon w={5} h={5} as={EmailIcon} />
       )}
       <TagLabel>{inviteName ? inviteName : email}</TagLabel>
-      <TagCloseButton tabIndex={tabIndex} onClick={() => deleteInvite(email)} />
+      <TagCloseButton role="button" aria-label={`delete ${inviteName}`} tabIndex={tabIndex} onClick={() => deleteInvite(email)} />
     </Tag>
   )
 }
 
-export default InviteTag
+export default InvitesInputTag

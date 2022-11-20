@@ -1,5 +1,5 @@
 export { default } from './InvitesInput'
 
-export * from './InviteInputSubmitButton'
+export * from './InvitesInputSubmitButton'
 export * from './InvitesInputText'
 export * from './InvitesInputSelect'

@@ -5,10 +5,10 @@ import {
   Input,
 } from '@chakra-ui/react'
 import { isEmail } from '../../utils/email'
-import InviteTag from './InviteInputTag'
+import InvitesInputTag from './InvitesInputTag'
 import { useInvitesListContext } from './InvitesInput'
 
-export const InviteInputText = () => {
+export const InvitesInputText = () => {
   const {
     hasInvites,
     addInvite,
@@ -46,6 +46,7 @@ export const InviteInputText = () => {
 
   return (
     <Container
+      role="group"
       borderWidth="1px"
       borderColor="brand.gray-500"
       borderRadius="brand.base"
@@ -55,14 +56,15 @@ export const InviteInputText = () => {
       onClick={() => inputRef.current?.focus()}
     >
       {invites.map((invite, index) => (
-        <InviteTag
+        <InvitesInputTag
           tabIndex={index + 1}
           key={invite.email}
           invite={invite}
-        ></InviteTag>
+        ></InvitesInputTag>
       ))}
       <Input
         type="email"
+        role="textbox"
         ref={inputRef}
         tabIndex={1}
         placeholder={hasInvites ? '' : 'Search names or emails...'}
