@@ -1,8 +1,8 @@
 export type Invite = {
-  firstName?: string;
-  lastName?: string;
-  email: string;
-};
+  firstName?: string
+  lastName?: string
+  email: string
+}
 
 export interface User {
   firstName: string

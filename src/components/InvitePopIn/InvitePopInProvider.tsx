@@ -1,8 +1,8 @@
-import { createContext, ReactNode, useContext, useMemo, useState } from 'react';
-import { noop } from '../../constants';
+import { createContext, ReactNode, useContext, useMemo, useState } from 'react'
+import { noop } from '../../constants'
 
 type InvitePopInState = {
-  isOpen: boolean,
+  isOpen: boolean
 }
 
 const defaultState: InvitePopInState = {
@@ -12,8 +12,8 @@ const defaultState: InvitePopInState = {
 const InvitePopInStateContext = createContext<InvitePopInState>(defaultState)
 
 type InvitePopInActions = {
-  open(): void,
-  close(): void,
+  open(): void
+  close(): void
 }
 
 const defaultActions: InvitePopInActions = {
@@ -21,15 +21,19 @@ const defaultActions: InvitePopInActions = {
   close: noop,
 }
 
-const InvitePopInActionsContext = createContext<InvitePopInActions>(defaultActions)
+const InvitePopInActionsContext =
+  createContext<InvitePopInActions>(defaultActions)
 
 export const InvitePopInProvider = ({ children }: { children: ReactNode }) => {
   const [isOpen, setIsOpen] = useState(defaultState.isOpen)
 
-  const InvitePopInActions = useMemo(() => ({
-    open: () => setIsOpen(true),
-    close: () => setIsOpen(false),
-  }), [setIsOpen])
+  const InvitePopInActions = useMemo(
+    () => ({
+      open: () => setIsOpen(true),
+      close: () => setIsOpen(false),
+    }),
+    [setIsOpen],
+  )
 
   return (
     <InvitePopInStateContext.Provider value={{ isOpen }}>
@@ -40,7 +44,8 @@ export const InvitePopInProvider = ({ children }: { children: ReactNode }) => {
   )
 }
 
-export const useIsInvitePopInOpen = () => useContext(InvitePopInStateContext).isOpen
+export const useIsInvitePopInOpen = () =>
+  useContext(InvitePopInStateContext).isOpen
 export const useInvitePopInActions = () => useContext(InvitePopInActionsContext)
 
 export default InvitePopInProvider

@@ -1,6 +1,5 @@
 const global = {
-  "html, body": {
-  },
-};
+  'html, body': {},
+}
 
-export default global;
+export default global

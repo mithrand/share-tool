@@ -3,26 +3,26 @@ import { useState, createContext, ReactNode, useContext } from 'react'
 import { Invite } from '../../types'
 
 type InvitesState = {
-  invites: Invite[],
-  addInvite(invite: Invite): void,
+  invites: Invite[]
+  addInvite(invite: Invite): void
   deleteInvite(inviteEmail: string): void
 }
 
 const InvitesStateContext = createContext<InvitesState>({
   invites: [],
-  addInvite: (invite: Invite) => { },
-  deleteInvite: (inviteEmail: string) => { },
+  addInvite: (invite: Invite) => {},
+  deleteInvite: (inviteEmail: string) => {},
 })
 
 const InvitesListProvider = ({ children }: { children: ReactNode }) => {
   const [invites, setInvites] = useState<Invite[]>([])
 
   const addInvite = (invite: Invite) => {
-    setInvites([...invites.filter(inv => inv.email !== invite.email), invite])
+    setInvites([...invites.filter((inv) => inv.email !== invite.email), invite])
   }
 
   const deleteInvite = (inviteEmail: string) => {
-    setInvites(invites.filter(inv => inv.email !== inviteEmail))
+    setInvites(invites.filter((inv) => inv.email !== inviteEmail))
   }
 
   return (
@@ -37,7 +37,7 @@ export const useInvitesListContext = () => {
   return {
     invites,
     hasInvites: invites.length > 0,
-    ...rest
+    ...rest,
   }
 }
 

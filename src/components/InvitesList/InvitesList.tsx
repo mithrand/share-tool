@@ -1,9 +1,18 @@
 import React, { useState, createRef } from 'react'
 
-import { Flex, Container, Button, Spacer, Input, Center } from '@chakra-ui/react'
+import {
+  Flex,
+  Container,
+  Button,
+  Spacer,
+  Input,
+  Center,
+} from '@chakra-ui/react'
 import { isEmail } from '../../utils/email'
 import InviteTag from './InviteTag'
-import InvitesListProvider, { useInvitesListContext } from './InviteListProvider'
+import InvitesListProvider, {
+  useInvitesListContext,
+} from './InviteListProvider'
 import { Invite } from '../../types'
 import InviteListRecomendations from './InviteListRecomendations'
 
@@ -12,7 +21,8 @@ type Props = {
 }
 
 const InviteList = ({ onSend }: Props) => {
-  const { hasInvites, addInvite, invites, deleteInvite } = useInvitesListContext()
+  const { hasInvites, addInvite, invites, deleteInvite } =
+    useInvitesListContext()
   const [keyword, setKeyword] = useState('')
 
   const add = (inivite: Invite) => {
@@ -23,7 +33,9 @@ const InviteList = ({ onSend }: Props) => {
   const recomendationListRef = createRef<HTMLLIElement>()
   const inputRef = createRef<HTMLInputElement>()
 
-  const onKeywordChangeHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const onKeywordChangeHandler = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const keyword = event.target.value
     setKeyword(keyword)
   }
@@ -40,7 +52,7 @@ const InviteList = ({ onSend }: Props) => {
       return
     }
 
-    if (key === "ArrowDown" && recomendationListRef.current) {
+    if (key === 'ArrowDown' && recomendationListRef.current) {
       recomendationListRef.current.focus()
       return
     }
@@ -49,8 +61,6 @@ const InviteList = ({ onSend }: Props) => {
   const onSendClickHandler = () => {
     onSend(invites)
   }
-
-
 
   return (
     <>
@@ -65,9 +75,15 @@ const InviteList = ({ onSend }: Props) => {
           p="0"
           onClick={() => inputRef.current?.focus()}
         >
-          {invites.map((invite, index) => <InviteTag tabIndex={index + 1} key={invite.email} invite={invite}></InviteTag>)}
+          {invites.map((invite, index) => (
+            <InviteTag
+              tabIndex={index + 1}
+              key={invite.email}
+              invite={invite}
+            ></InviteTag>
+          ))}
           <Input
-            type='email'
+            type="email"
             ref={inputRef}
             tabIndex={1}
             placeholder={hasInvites ? '' : 'Search names or emails...'}
@@ -76,9 +92,11 @@ const InviteList = ({ onSend }: Props) => {
             color="brand.gray-100"
             height="8"
             maxWidth="100%"
-            width={!hasInvites ? '100%' : `${(keyword.length + 10).toString()}ch`}
+            width={
+              !hasInvites ? '100%' : `${(keyword.length + 10).toString()}ch`
+            }
             _focusVisible={{
-              border: "none"
+              border: 'none',
             }}
             value={keyword}
             onChange={onKeywordChangeHandler}
@@ -87,12 +105,23 @@ const InviteList = ({ onSend }: Props) => {
         </Container>
         <Spacer />
         <Center>
-          <Button tabIndex={invites.length + 3} onClick={onSendClickHandler} disabled={hasInvites ? false : true}>Invite</Button>
+          <Button
+            tabIndex={invites.length + 3}
+            onClick={onSendClickHandler}
+            disabled={hasInvites ? false : true}
+          >
+            Invite
+          </Button>
         </Center>
       </Flex>
       <Flex>
         <Container w="75%" p="0" m="0">
-          <InviteListRecomendations ref={recomendationListRef} tabIndex={invites.length + 2} keyword={keyword} onSelect={add} />
+          <InviteListRecomendations
+            ref={recomendationListRef}
+            tabIndex={invites.length + 2}
+            keyword={keyword}
+            onSelect={add}
+          />
         </Container>
         <Spacer />
       </Flex>
@@ -106,4 +135,4 @@ const InviteListContainer = (props: Props) => (
   </InvitesListProvider>
 )
 
-export default InviteListContainer 
+export default InviteListContainer

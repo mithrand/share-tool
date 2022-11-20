@@ -3,6 +3,6 @@ import { useInvitePopInActions } from './InvitePopInProvider'
 import { Button } from '@chakra-ui/react'
 
 export const InvitePopInOpenButton = () => {
-    const { open } = useInvitePopInActions()
-    return <Button onClick={open}>Invite teammates</Button>
+  const { open } = useInvitePopInActions()
+  return <Button onClick={open}>Invite teammates</Button>
 }

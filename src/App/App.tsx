@@ -1,12 +1,15 @@
-import React from 'react';
-import { QueryClientProvider } from "@tanstack/react-query"
+import React from 'react'
+import { QueryClientProvider } from '@tanstack/react-query'
 import { ChakraProvider, Center, useToast } from '@chakra-ui/react'
 
-import InvitePopIn, { InvitePopInProvider, InvitePopInOpenButton } from '../components/InvitePopIn';
+import InvitePopIn, {
+  InvitePopInProvider,
+  InvitePopInOpenButton,
+} from '../components/InvitePopIn'
 import theme from '../theme/theme'
 import '@fontsource/lato/400.css'
-import { Invite } from '../types';
-import queryClient from '../queries/queryClient';
+import { Invite } from '../types'
+import queryClient from '../queries/queryClient'
 
 const App = () => {
   const toast = useToast()
@@ -15,10 +18,12 @@ const App = () => {
     toast({
       title: 'Invites sent',
       status: 'success',
-      description: `Invites has been sent to ${invites.map(inv => inv.email).join(', ')}`,
+      description: `Invites has been sent to ${invites
+        .map((inv) => inv.email)
+        .join(', ')}`,
       duration: 9000,
       isClosable: true,
-      position: "top"
+      position: 'top',
     })
   }
 
@@ -31,9 +36,9 @@ const App = () => {
           </Center>
           <InvitePopIn onSend={onSendHandler} />
         </InvitePopInProvider>
-      </ChakraProvider >
+      </ChakraProvider>
     </QueryClientProvider>
   )
 }
 
-export default App;
+export default App
