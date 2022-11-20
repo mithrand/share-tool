@@ -1,21 +1,27 @@
 import React from 'react'
-import { render, screen, waitForElementToBeRemoved } from '@testing-library/react'
+import {
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import InviteListInput from '../InvitesList'
 
 import InvitePopIn, { InvitePopInOpenButton, InvitePopInProvider } from '.'
 
-jest.mock('../InvitesList', (() => ({ onSend }: { onSend: () => void }) => <button onClick={onSend} >submit</button>))
+jest.mock('../InvitesList', () => ({ onSend }: { onSend: () => void }) => (
+  <button onClick={onSend}>submit</button>
+))
 
 describe('Invite App', () => {
   const onSubmitMock = () => jest.fn()
 
-  const App = () =>
+  const App = () => (
     <InvitePopInProvider>
       <InvitePopIn onSubmit={onSubmitMock} />
       <InvitePopInOpenButton />
     </InvitePopInProvider>
-
+  )
 
   it('Opens when clicking on PopIn button', () => {
     render(<App />)
@@ -31,7 +37,9 @@ describe('Invite App', () => {
     expect(header).toBeInTheDocument()
     const mainText = screen.getByText(/Email invite/i)
     expect(mainText).toBeInTheDocument()
-    const secondaryText = screen.getByText(/Send members an email invitation to join this workspace/i)
+    const secondaryText = screen.getByText(
+      /Send members an email invitation to join this workspace/i,
+    )
     expect(secondaryText).toBeInTheDocument()
   })
 
@@ -43,6 +51,4 @@ describe('Invite App', () => {
     await userEvent.click(submitbutton)
     await waitForElementToBeRemoved(() => screen.queryByText(/Invite members/i))
   })
-
-
 })
