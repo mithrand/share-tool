@@ -1,4 +1,4 @@
-import React, { createRef } from 'react'
+import React from 'react'
 
 import { Container, Input } from '@chakra-ui/react'
 import { isEmail } from '../../utils/email'
@@ -14,9 +14,8 @@ export const InvitesInputText = () => {
     keyword,
     setKeyword,
     selectInputRef,
+    textInputRef,
   } = useInvitesListContext()
-
-  const inputRef = createRef<HTMLInputElement>()
 
   const onKeywordChangeHandler = ({
     target: { value },
@@ -52,7 +51,7 @@ export const InvitesInputText = () => {
       backgroundColor="brand.gray-900"
       m="0"
       p="0"
-      onClick={() => inputRef.current?.focus()}
+      onClick={() => textInputRef.current?.focus()}
     >
       {invites.map((invite, index) => (
         <InvitesInputTag
@@ -62,9 +61,9 @@ export const InvitesInputText = () => {
         ></InvitesInputTag>
       ))}
       <Input
+        ref={textInputRef}
         type="email"
         role="textbox"
-        ref={inputRef}
         tabIndex={1}
         placeholder={hasInvites ? '' : 'Search names or emails...'}
         fontSize="brand.sm"
