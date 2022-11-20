@@ -34,7 +34,7 @@ const App = () => {
           <Center h="100vh" w="100vw">
             <InvitePopInOpenButton />
           </Center>
-          <InvitePopIn onSend={onSendHandler} />
+          <InvitePopIn onSubmit={onSendHandler} />
         </InvitePopInProvider>
       </ChakraProvider>
     </QueryClientProvider>

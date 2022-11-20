@@ -17,14 +17,14 @@ import InviteListInput from '../InvitesList'
 import { Invite } from '../../types'
 
 type Props = {
-  onSend(Invite: Invite[]): void
+  onSubmit(Invite: Invite[]): void
 }
 
-const InvitePopIn = ({ onSend }: Props) => {
+const InvitePopIn = ({ onSubmit }: Props) => {
   const isOpen = useIsInvitePopInOpen()
   const { close } = useInvitePopInActions()
   const onSendHandler = (invites: Invite[]) => {
-    onSend(invites)
+    onSubmit(invites)
     close()
   }
   return (
