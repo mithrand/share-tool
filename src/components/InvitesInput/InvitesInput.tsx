@@ -50,12 +50,12 @@ const InvitesInput = ({ children, onSubmit }: Props) => {
   }
 
   const popInvite = () => {
-    setInvites(invites.slice(0, invites.length -1 ))
+    setInvites(invites.slice(0, invites.length - 1))
   }
 
   const selectInputRef = createRef<HTMLLIElement>()
 
-  const submit = () => { 
+  const submit = () => {
     onSubmit(invites)
   }
 

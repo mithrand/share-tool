@@ -1,31 +1,23 @@
 import React from 'react'
-import {
-  Matcher,
-  render,
-  screen,
-  within,
-
-} from '@testing-library/react'
+import { Matcher, render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import { QueryClientProvider } from '@tanstack/react-query'
 import queryClient from '../../queries/queryClient'
 
-import InvitesInput, { InvitesInputText, InvitesInputSubmitButton, InvitesInputSelect } from '.'
+import InvitesInput, {
+  InvitesInputText,
+  InvitesInputSubmitButton,
+  InvitesInputSelect,
+} from '.'
 
-const withinTextInput = () =>  within(screen.getByRole('group'))
+const withinTextInput = () => within(screen.getByRole('group'))
 
-const withinSelectList = async () =>  within(await screen.findByRole('list'))
-
-const withinTag = async (text: Matcher) => {
-  const tag = within(screen.getByRole('group')).getByText(text)
-  return within(tag)
-}
+const withinSelectList = async () => within(await screen.findByRole('list'))
 
 const submit = () => userEvent.click(screen.getByText('Invite'))
 
 describe('Invite App', () => {
-
   const onSubmitMock = jest.fn()
 
   const App = () => (
@@ -72,7 +64,13 @@ describe('Invite App', () => {
     await userEvent.click(selectButton)
     withinTextInput().getByText(/Tara Halvik/i)
     submit()
-    expect(onSubmitMock).toHaveBeenCalledWith([expect.objectContaining({ email: "tara@claap.io", firstName: 'Tara', lastName: 'Halvik' })])
+    expect(onSubmitMock).toHaveBeenCalledWith([
+      expect.objectContaining({
+        email: 'tara@claap.io',
+        firstName: 'Tara',
+        lastName: 'Halvik',
+      }),
+    ])
   })
 
   it('adds more than one user from the list', async () => {
@@ -81,7 +79,9 @@ describe('Invite App', () => {
     await userEvent.type(screen.getByRole('textbox'), `t`)
     await userEvent.click((await withinSelectList()).getByText(/Tara Halvik/i))
     await userEvent.type(screen.getByRole('textbox'), `t`)
-    await userEvent.click((await withinSelectList()).getByText(/Tristan Agosta/i))
+    await userEvent.click(
+      (await withinSelectList()).getByText(/Tristan Agosta/i),
+    )
     await userEvent.type(screen.getByRole('textbox'), email)
     await userEvent.click((await withinSelectList()).getByText(email))
     withinTextInput().getByText(/Tara Halvik/i)
@@ -89,8 +89,16 @@ describe('Invite App', () => {
     withinTextInput().getByText(email)
     submit()
     expect(onSubmitMock).toHaveBeenCalledWith([
-      expect.objectContaining({ email: "tara@claap.io", firstName: 'Tara', lastName: 'Halvik' }),
-      expect.objectContaining({ email: "tristan@claap.com", firstName: "Tristan", lastName: "Agosta" }),
+      expect.objectContaining({
+        email: 'tara@claap.io',
+        firstName: 'Tara',
+        lastName: 'Halvik',
+      }),
+      expect.objectContaining({
+        email: 'tristan@claap.com',
+        firstName: 'Tristan',
+        lastName: 'Agosta',
+      }),
       expect.objectContaining({ email }),
     ])
   })
@@ -100,16 +108,23 @@ describe('Invite App', () => {
     await userEvent.type(screen.getByRole('textbox'), `t`)
     await userEvent.click((await withinSelectList()).getByText(/Tara Halvik/i))
     await userEvent.type(screen.getByRole('textbox'), `t`)
-    await userEvent.click((await withinSelectList()).getByText(/Tristan Agosta/i))
+    await userEvent.click(
+      (await withinSelectList()).getByText(/Tristan Agosta/i),
+    )
     withinTextInput().getByText(/Tara Halvik/i)
     withinTextInput().getByText(/Tristan Agosta/i)
-    const button = (await withinTextInput()).getByLabelText(/delete Tara Halvik/i)
+    const button = (await withinTextInput()).getByLabelText(
+      /delete Tara Halvik/i,
+    )
     await userEvent.click(button)
 
     submit()
     expect(onSubmitMock).toHaveBeenCalledWith([
-      expect.objectContaining({ email: "tristan@claap.com", firstName: "Tristan", lastName: "Agosta" }),
+      expect.objectContaining({
+        email: 'tristan@claap.com',
+        firstName: 'Tristan',
+        lastName: 'Agosta',
+      }),
     ])
   })
-
 })

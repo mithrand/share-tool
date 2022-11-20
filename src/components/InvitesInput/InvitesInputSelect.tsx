@@ -15,14 +15,8 @@ import { getFullName } from '../../utils/invites'
 import useUsers from '../../queries/useUsers'
 import { useInvitesListContext } from './InvitesInput'
 
-
 export const InvitesInputSelect = () => {
-
-  const {
-    addInvite,
-    keyword,
-    selectInputRef,
-  } = useInvitesListContext()
+  const { addInvite, keyword, selectInputRef } = useInvitesListContext()
 
   const usersQuery = useUsers(keyword)
   const usersRef = useRef<Invite[]>([])
@@ -39,8 +33,10 @@ export const InvitesInputSelect = () => {
 
   const hasRecomendations = recomendations.length > 0
 
-  const onKeyDownHandler = ({ key, target }: React.KeyboardEvent<HTMLLIElement>, invite: Invite) => {
-
+  const onKeyDownHandler = (
+    { key, target }: React.KeyboardEvent<HTMLLIElement>,
+    invite: Invite,
+  ) => {
     if (key === 'Enter') {
       addInvite(invite)
       return
@@ -49,20 +45,20 @@ export const InvitesInputSelect = () => {
     if (target instanceof Element) {
       if (key === 'ArrowDown') {
         if (target.nextElementSibling) {
-          ; (target.nextElementSibling as HTMLElement)?.focus()
+          ;(target.nextElementSibling as HTMLElement)?.focus()
         } else {
-          ; (target?.parentElement?.childNodes[0] as HTMLElement)?.focus()
+          ;(target?.parentElement?.childNodes[0] as HTMLElement)?.focus()
         }
         return
       }
 
       if (key === 'ArrowUp') {
         if (target.previousElementSibling) {
-          ; (target.previousElementSibling as HTMLElement)?.focus()
+          ;(target.previousElementSibling as HTMLElement)?.focus()
         } else {
-          ; (
+          ;(
             target?.parentElement?.childNodes[
-            target.parentElement.childNodes.length - 1
+              target.parentElement.childNodes.length - 1
             ] as HTMLElement
           )?.focus()
         }

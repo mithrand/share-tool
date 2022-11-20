@@ -45,7 +45,12 @@ const InvitesInputTag = ({ tabIndex, invite }: Props) => {
         <TagLeftIcon w={5} h={5} as={EmailIcon} />
       )}
       <TagLabel>{inviteName ? inviteName : email}</TagLabel>
-      <TagCloseButton role="button" aria-label={`delete ${inviteName}`} tabIndex={tabIndex} onClick={() => deleteInvite(email)} />
+      <TagCloseButton
+        role="button"
+        aria-label={`delete ${inviteName}`}
+        tabIndex={tabIndex}
+        onClick={() => deleteInvite(email)}
+      />
     </Tag>
   )
 }

@@ -3,7 +3,6 @@ import {
   render,
   screen,
   waitForElementToBeRemoved,
-
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -11,9 +10,7 @@ import InvitePopIn, { InvitePopInOpenButton, InvitePopInProvider } from '.'
 import { QueryClientProvider } from '@tanstack/react-query'
 import queryClient from '../../queries/queryClient'
 
-
 describe('Invite App', () => {
-
   const App = () => (
     <QueryClientProvider client={queryClient}>
       <InvitePopInProvider>

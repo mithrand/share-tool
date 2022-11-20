@@ -1,9 +1,6 @@
 import React, { createRef } from 'react'
 
-import {
-  Container,
-  Input,
-} from '@chakra-ui/react'
+import { Container, Input } from '@chakra-ui/react'
 import { isEmail } from '../../utils/email'
 import InvitesInputTag from './InvitesInputTag'
 import { useInvitesListContext } from './InvitesInput'
@@ -21,13 +18,15 @@ export const InvitesInputText = () => {
 
   const inputRef = createRef<HTMLInputElement>()
 
-  const onKeywordChangeHandler = (
-    { target: { value } }: React.ChangeEvent<HTMLInputElement>,
-  ) => {
+  const onKeywordChangeHandler = ({
+    target: { value },
+  }: React.ChangeEvent<HTMLInputElement>) => {
     setKeyword(value)
   }
 
-  const onKeyPressHandler = ({ key }: React.KeyboardEvent<HTMLInputElement>) => {
+  const onKeyPressHandler = ({
+    key,
+  }: React.KeyboardEvent<HTMLInputElement>) => {
     if (key === 'Enter' && isEmail(keyword)) {
       addInvite({ email: keyword })
       return
@@ -73,9 +72,7 @@ export const InvitesInputText = () => {
         color="brand.gray-100"
         height="8"
         maxWidth="100%"
-        width={
-          !hasInvites ? '100%' : `${(keyword.length + 10).toString()}ch`
-        }
+        width={!hasInvites ? '100%' : `${(keyword.length + 10).toString()}ch`}
         _focusVisible={{
           border: 'none',
         }}
