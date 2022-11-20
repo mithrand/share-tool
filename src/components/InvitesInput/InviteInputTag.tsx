@@ -5,12 +5,11 @@ import {
   TagLeftIcon,
   TagCloseButton,
   Avatar,
-  Fade,
 } from '@chakra-ui/react'
 import { EmailIcon } from '@chakra-ui/icons'
 
 import { Invite } from '../../types'
-import { useInvitesListContext } from './InviteListProvider'
+import { useInvitesListContext } from './InvitesInput'
 import { getFullName } from '../../utils/invites'
 
 type Props = {

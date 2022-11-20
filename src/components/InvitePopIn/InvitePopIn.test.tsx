@@ -5,7 +5,7 @@ import {
   waitForElementToBeRemoved,
 } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import InviteListInput from '../InvitesList'
+import InviteListInput from '../InvitesInput'
 
 import InvitePopIn, { InvitePopInOpenButton, InvitePopInProvider } from '.'
 

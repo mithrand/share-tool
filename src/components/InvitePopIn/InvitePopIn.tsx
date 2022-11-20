@@ -13,7 +13,7 @@ import {
   useInvitePopInActions,
   useIsInvitePopInOpen,
 } from './InvitePopInProvider'
-import InviteListInput from '../InvitesList'
+import InvitesInput, { InviteInputText } from '../InvitesInput'
 import { Invite } from '../../types'
 
 type Props = {
@@ -23,7 +23,7 @@ type Props = {
 const InvitePopIn = ({ onSubmit }: Props) => {
   const isOpen = useIsInvitePopInOpen()
   const { close } = useInvitePopInActions()
-  const onSendHandler = (invites: Invite[]) => {
+  const onSubmitHandler = (invites: Invite[]) => {
     onSubmit(invites)
     close()
   }
@@ -49,7 +49,9 @@ const InvitePopIn = ({ onSubmit }: Props) => {
           <Text fontSize="brand.sm" color="brand.gray-100" mb="6">
             Send members an email invitation to join this workspace
           </Text>
-          <InviteListInput onSend={onSendHandler} />
+          <InvitesInput onSubmit={onSubmitHandler}>
+            <InviteInputText />
+          </InvitesInput>
         </ModalBody>
       </ModalContent>
     </Modal>

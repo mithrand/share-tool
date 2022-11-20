@@ -1,66 +1,54 @@
-import React, { useState, createRef } from 'react'
+import React, { createRef } from 'react'
 
 import {
   Flex,
   Container,
-  Button,
   Spacer,
   Input,
   Center,
 } from '@chakra-ui/react'
 import { isEmail } from '../../utils/email'
-import InviteTag from './InviteTag'
-import InvitesListProvider, {
-  useInvitesListContext,
-} from './InviteListProvider'
-import { Invite } from '../../types'
-import InviteListRecomendations from './InviteListRecomendations'
+import InviteTag from './InviteInputTag'
+import { useInvitesListContext } from './InvitesInput'
+import { InviteInputSelect } from './InvitesInputSelect'
+import { InviteInputSubmitButton } from './InviteInputSubmitButton'
 
-type Props = {
-  onSend(invites: Invite[]): void
-}
 
-const InviteList = ({ onSend }: Props) => {
-  const { hasInvites, addInvite, invites, deleteInvite } =
-    useInvitesListContext()
-  const [keyword, setKeyword] = useState('')
+export const InviteInputText = () => {
+  const {
+    hasInvites,
+    addInvite,
+    invites,
+    popInvite,
+    keyword,
+    setKeyword,
+    selectInputRef,
+  } = useInvitesListContext()
 
-  const add = (inivite: Invite) => {
-    addInvite(inivite)
-    setKeyword('')
-  }
-
-  const recomendationListRef = createRef<HTMLLIElement>()
   const inputRef = createRef<HTMLInputElement>()
 
   const onKeywordChangeHandler = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    { target: { value } }: React.ChangeEvent<HTMLInputElement>,
   ) => {
-    const keyword = event.target.value
-    setKeyword(keyword)
+    setKeyword(value)
   }
 
-  const onKeyPressHandler = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    const { key } = event
+  const onKeyPressHandler = ({ key }: React.KeyboardEvent<HTMLInputElement>) => {
     if (key === 'Enter' && isEmail(keyword)) {
-      add({ email: keyword })
+      addInvite({ email: keyword })
       return
     }
 
     if (key === 'Backspace' && hasInvites && !keyword) {
-      deleteInvite(invites[invites.length - 1].email)
+      popInvite()
       return
     }
 
-    if (key === 'ArrowDown' && recomendationListRef.current) {
-      recomendationListRef.current.focus()
+    if (key === 'ArrowDown' && selectInputRef.current) {
+      selectInputRef.current.focus()
       return
     }
-  }
-
-  const onSendClickHandler = () => {
-    onSend(invites)
-  }
+  }  
 
   return (
     <>
@@ -105,34 +93,16 @@ const InviteList = ({ onSend }: Props) => {
         </Container>
         <Spacer />
         <Center>
-          <Button
-            tabIndex={invites.length + 3}
-            onClick={onSendClickHandler}
-            disabled={hasInvites ? false : true}
-          >
-            Invite
-          </Button>
+          <InviteInputSubmitButton>Invite</InviteInputSubmitButton>
         </Center>
       </Flex>
       <Flex>
         <Container w="75%" p="0" m="0">
-          <InviteListRecomendations
-            ref={recomendationListRef}
-            tabIndex={invites.length + 2}
-            keyword={keyword}
-            onSelect={add}
-          />
+          <InviteInputSelect
+/>
         </Container>
         <Spacer />
       </Flex>
     </>
   )
 }
-
-const InviteListContainer = (props: Props) => (
-  <InvitesListProvider>
-    <InviteList {...props} />
-  </InvitesListProvider>
-)
-
-export default InviteListContainer
